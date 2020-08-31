@@ -10,20 +10,30 @@ const pangApp = {
     w: undefined,
     h: undefined,
   },
-  ballSizw: {
-    x: undefined,
-    y: undefined,
-  },
-  x: undefined,
-  y: undefined,
-  ballRadius: undefined,
+  BigBall : [],
+  mediumBalls : [],
   init(id) {
     this.canvasId = id;
     this.ctx = document.getElementById(this.canvasId).getContext("2d");
     this.setDimensions();
     this.setEventHandlers();
-    this.drawTest();
+    this.createNewBall()
+    this.drawAll()
+    console.log(this.BigBall)
     console.log("Este es el objeto", this.ctx);
+  },
+  drawAll(){
+    const interval = setInterval(() => {
+      this.clearScreen()
+      this.BigBall.length >= 1 ? this.BigBall[0].draw() : null
+      this.createMediumBall()
+      this.mediumBalls.length >= 1 ? this.mediumBalls.forEach(elem => elem.draw()) : null
+      
+      
+      
+      
+    },20)
+    
   },
   setDimensions() {
     document
@@ -40,12 +50,35 @@ const pangApp = {
   setEventHandlers() {
     window.onresize = () => this.setDimensions();
   },
-  drawTest() {
-    ballradius = 10;
-    this.ctx.beginPath();
-    this.ctx.arc(100, 100, ballradius, 0, Math.PI * 2);
-    this.ctx.fillStyle = "blue";
-    this.ctx.fill();
-    this.ctx.closePath();
-  },
+
+  createNewBall() {
+    let ball = new Ball(this.ctx, this.canvasSize)
+    this.BigBall.push(ball)
+},
+clearScreen() {
+  this.ctx.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h)
+},
+
+// collision(){
+//   if(this.BigBall[0].ballPos.x <= 0){
+  
+//   } 
+// },
+
+createMediumBall(){
+  this.BigBall.forEach(elem =>{
+    if(elem.ballPos.x <=0){
+      let index = this.BigBall.indexOf(elem)
+      let mBall = new MediumBall(this.ctx, this.canvasSize, elem.ballPos.x, elem.ballPos.y, elem.ballSize.w /2, elem.ballSize.h /2)
+      this.mediumBalls.push(mBall)
+      this.BigBall.splice(index,1)
+     console.log(this.mediumBalls)
+    }
+  })
+  // if(this.BigBall[0].ballPos.x <= 0){
+    
+  } 
+  
+
+
 };
