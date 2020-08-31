@@ -17,6 +17,7 @@ const pangApp = {
     this.canvasId = id;
     this.ctx = document.getElementById(this.canvasId).getContext("2d");
     this.setDimensions();
+    this.setEventListeners()
     this.setEventHandlers();
     this.createNewBall()
     this.createPlayer()
@@ -31,6 +32,7 @@ const pangApp = {
       this.createMediumBall()
       this.mediumBalls.length >= 1 ? this.mediumBalls.forEach(elem => elem.draw()) : null
       this.player.draw()
+    
       
       
       
@@ -76,7 +78,10 @@ createMediumBall(){
   this.BigBall.forEach(elem =>{
     if(elem.ballPos.x <=0){
       let index = this.BigBall.indexOf(elem)
-      let mBall = new MediumBall(this.ctx, this.canvasSize, elem.ballPos.x, elem.ballPos.y, elem.ballSize.w /2, elem.ballSize.h /2)
+      let mBall = new MediumBall(this.ctx, this.canvasSize, elem.ballPos.x, elem.ballPos.y+5, elem.ballSize.w /2, elem.ballSize.h /2, -7, 20)
+      this.mediumBalls.push(mBall)
+    
+      mBall = new MediumBall(this.ctx, this.canvasSize, elem.ballPos.x, elem.ballPos.y, elem.ballSize.w /2, elem.ballSize.h /2, -13, 20)
       this.mediumBalls.push(mBall)
       this.BigBall.splice(index,1)
      console.log(this.mediumBalls)

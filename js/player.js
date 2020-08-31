@@ -32,8 +32,8 @@ class Player {
     move(dir) {
         dir === 'left' ? this.playerPos.x -= 7 : null
         dir === 'right' ? this.playerPos.x += 7 : null
-        this.carPos.x > this.canvasSize.w - this.playerSize.w -10 ? this.playerPos.x -=10 : null
-        this.playerPos.x < 10 ? this.playerPos.x += 10 : null
+        this.playerPos.x > this.canvasSize.w - this.playerSize.w  ? this.playerPos.x -=10 : null
+        this.playerPos.x < 5 ? this.playerPos.x += 10 : null
     }
  
 

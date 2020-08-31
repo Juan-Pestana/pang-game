@@ -12,6 +12,7 @@ class Ball {
         this.ballPos = { x: this.canvasSize.w/2, y: 100 }
         this.ballVel = { x: 8, y: -1 }
         this.ballPhysics = { gravity: .4 }
+        this.bounce = 23
     }
 
     draw() {
@@ -26,7 +27,7 @@ class Ball {
         this.ballVel.y += this.ballPhysics.gravity
         this.ballPos.y += this.ballVel.y
         if(this.ballPos.y > this.canvasSize.h - this.ballSize.h){
-            this.ballVel.y = 23
+            this.ballVel.y = this.bounce
             this.ballVel.y *= -1 
         }  
         //this.ballVel.y < 
@@ -42,19 +43,18 @@ class Ball {
 }
 
 class MediumBall extends Ball {
-    constructor(ctx,canvasSize, positionX, postionY, ballSizeW, ballSizeh){
+    constructor(ctx,canvasSize, positionX, postionY, ballSizeW, ballSizeh, ballVelY, bounce){
                 super(ctx,canvasSize);
 
             this.ballPos = { x: positionX, y: postionY }
             //this.ballVel = { x: 8, y: -1 }
 
             this.ballSize = { w: ballSizeW, h: ballSizeh }
-            this.mballVel = { x: 8, y: -1 }
+            this.ballVel = { x: 8, y: ballVelY }
+            this.bounce = bounce
             
     }
             
-
-    
 
 }
 
