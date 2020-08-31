@@ -10,6 +10,7 @@ const pangApp = {
     w: undefined,
     h: undefined,
   },
+  player : undefined,
   BigBall : [],
   mediumBalls : [],
   init(id) {
@@ -18,6 +19,7 @@ const pangApp = {
     this.setDimensions();
     this.setEventHandlers();
     this.createNewBall()
+    this.createPlayer()
     this.drawAll()
     console.log(this.BigBall)
     console.log("Este es el objeto", this.ctx);
@@ -28,6 +30,7 @@ const pangApp = {
       this.BigBall.length >= 1 ? this.BigBall[0].draw() : null
       this.createMediumBall()
       this.mediumBalls.length >= 1 ? this.mediumBalls.forEach(elem => elem.draw()) : null
+      this.player.draw()
       
       
       
@@ -50,6 +53,15 @@ const pangApp = {
   setEventHandlers() {
     window.onresize = () => this.setDimensions();
   },
+  setEventListeners() {
+    document.onkeydown = (e) => {
+      e.keyCode === 37 ? this.player.move('left') : null;
+      e.keyCode === 39 ? this.player.move('right') : null;
+    }
+  },
+  createPlayer(){
+    this.player = new Player(this.ctx, this.canvasSize)
+  },
 
   createNewBall() {
     let ball = new Ball(this.ctx, this.canvasSize)
@@ -59,11 +71,6 @@ clearScreen() {
   this.ctx.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h)
 },
 
-// collision(){
-//   if(this.BigBall[0].ballPos.x <= 0){
-  
-//   } 
-// },
 
 createMediumBall(){
   this.BigBall.forEach(elem =>{
