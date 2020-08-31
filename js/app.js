@@ -11,8 +11,11 @@ const pangApp = {
     h: undefined,
   },
   player : undefined,
+  gun : undefined,
+  shots : [],
   BigBall : [],
   mediumBalls : [],
+
   init(id) {
     this.canvasId = id;
     this.ctx = document.getElementById(this.canvasId).getContext("2d");
@@ -21,6 +24,7 @@ const pangApp = {
     this.setEventHandlers();
     this.createNewBall()
     this.createPlayer()
+       
     this.drawAll()
     console.log(this.BigBall)
     console.log("Este es el objeto", this.ctx);
@@ -28,10 +32,16 @@ const pangApp = {
   drawAll(){
     const interval = setInterval(() => {
       this.clearScreen()
+      if (this.shots.length >= 1) this.shots.forEach(elem =>{
+        elem.draw()
+        elem.move()
+      } )
       this.BigBall.length >= 1 ? this.BigBall[0].draw() : null
       this.createMediumBall()
       this.mediumBalls.length >= 1 ? this.mediumBalls.forEach(elem => elem.draw()) : null
       this.player.draw()
+      this.clearShots()
+      
     
       
       
@@ -59,8 +69,15 @@ const pangApp = {
     document.onkeydown = (e) => {
       e.keyCode === 37 ? this.player.move('left') : null;
       e.keyCode === 39 ? this.player.move('right') : null;
+      e.keyCode === 32 ? this.createShot() : null;
     }
   },
+  createShot(){
+    let shot = new Shot (this.ctx, this.canvasSize, this.player.playerPos.x)
+    this.shots.push(shot)
+    console.log(this.shots)
+  },
+
   createPlayer(){
     this.player = new Player(this.ctx, this.canvasSize)
   },
@@ -69,6 +86,15 @@ const pangApp = {
     let ball = new Ball(this.ctx, this.canvasSize)
     this.BigBall.push(ball)
 },
+
+  clearShots(){
+    this.shots.forEach(elem =>{
+      if (elem.position.y < this.canvasSize.h * -1){
+        let index = this.shots.indexOf(elem)
+        this.shots.splice(index, 1)
+      }
+    })
+  },  
 clearScreen() {
   this.ctx.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h)
 },
